@@ -30,3 +30,5 @@ This was originally a fork of Luca Minudel's repo. He was using it for a study o
 - When you've had a go at these exercises yourself, you could look at the [proposed solutions](https://github.com/lucaminudel/TDDwithMockObjectsAndDesignPrinciples/tree/master/TDDMicroExercises.ProposedSolution) in C#, Java, Javascript. If you've done the exercises in Python, you might be interested in my blog post ["SOLID exercises in Python"](http://coding-is-like-cooking.info/2012/09/solid-exercises-in-python/).
 
 - For background reading about Luca's study, see the [paper](https://github.com/lucaminudel/TDDwithMockObjectsAndDesignPrinciples/blob/master/Paper/mockobjects_emergingproperties.pdf?raw=true) and the [presentation](https://github.com/lucaminudel/TDDwithMockObjectsAndDesignPrinciples/blob/master/Slides/TDD-SOLID.pdf?raw=true) from Luca's own repo.
+
+## Note: Look for branches within this repo to find out applied solutions
