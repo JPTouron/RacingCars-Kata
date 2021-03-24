@@ -11,10 +11,12 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
     public class UnicodeFileToHtmlTextConverter
     {
         private readonly IFileReader fileReader;
+        private readonly IHttpUtility httpUtility;
 
-        public UnicodeFileToHtmlTextConverter(IFileReader fileReader)
+        public UnicodeFileToHtmlTextConverter(IFileReader fileReader, IHttpUtility httpUtility)
         {
             this.fileReader = fileReader;
+            this.httpUtility = httpUtility;
         }
 
         public string ConvertToHtml()
@@ -26,7 +28,7 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
             {
                 if (line != null)
                 {
-                    html += HttpUtility.HtmlEncode(line);
+                    html += httpUtility.HtmlEncode(line);
                     html += "<br />";
                 }
             }
@@ -35,18 +37,5 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         }
 
         public string GetFilename() => fileReader.FileNameWithPath;
-    }
-
-    internal class HttpUtility
-    {
-        public static string HtmlEncode(string line)
-        {
-            line = line.Replace("<", "&lt;");
-            line = line.Replace(">", "&gt;");
-            line = line.Replace("&", "&amp;");
-            line = line.Replace("\"", "&quot;");
-            line = line.Replace("\'", "&quot;");
-            return line;
-        }
     }
 }

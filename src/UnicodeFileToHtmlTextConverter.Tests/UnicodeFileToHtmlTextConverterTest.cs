@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using TDDMicroExercises.UnicodeFileToHtmlTextConverter.Tests.Stubs;
 using Xunit;
 
 namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
@@ -11,8 +12,9 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         {
             const string fileNameWithPath = "./foobar.txt";
             var fileReader = CreateFileReaderStub(fileNameWithPath);
+            var httpEncoder = CreateHttpEncoder();
 
-            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader);
+            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader, httpEncoder);
 
             Assert.Equal(fileNameWithPath, converter.GetFilename());
         }
@@ -26,6 +28,7 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         {
             string fileNameWithPath = $"./UnicodeFileToHtmlTextConverter.Tests/{fileName}";
             var fileReader = CreateFileReaderStub(fileNameWithPath);
+            var httpEncoder = CreateHttpEncoder();
 
             var expectedCount = 0;
 
@@ -41,7 +44,7 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
                 expectedCount++;
             }
 
-            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader);
+            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader, httpEncoder);
 
             var result = converter.ConvertToHtml();
 
@@ -57,12 +60,14 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         {
             string fileNameWithPath = $"./UnicodeFileToHtmlTextConverter.Tests/{fileName}";
             var fileReader = CreateFileReaderStub(fileNameWithPath);
+            var httpEncoder = CreateHttpEncoder();
+
             var contents = "";
 
             using (var fr = new System.IO.StreamReader(fileNameWithPath))
                 contents = fr.ReadToEnd();
 
-            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader);
+            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader, httpEncoder);
 
             var result = converter.ConvertToHtml();
 
@@ -85,6 +90,11 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         private FileReaderStub CreateFileReaderStub(string fileNameWithPath)
         {
             return new FileReaderStub(fileNameWithPath);
+        }
+
+        private HttpUtilityCustomStub CreateHttpEncoder()
+        {
+            return new HttpUtilityCustomStub();
         }
     }
 }

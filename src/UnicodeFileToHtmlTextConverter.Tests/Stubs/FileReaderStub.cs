@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
+namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter.Tests.Stubs
 {
     /// <summary>
     /// a simple stub, a representation of a possible implementation to test the converter
