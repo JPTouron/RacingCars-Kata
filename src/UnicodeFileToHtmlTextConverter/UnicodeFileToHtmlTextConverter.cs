@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
 {
     /*
@@ -7,41 +5,39 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
      * - DIP: working against the file system directly, also depending directly over httpUtilities
      * - O/C: no way to modify what it's doing with the file from outside
      * - SRP: reading file + formatting
-     * 
+     *
      */
+
     public class UnicodeFileToHtmlTextConverter
     {
-        private string _fullFilenameWithPath;
+        private readonly IFileReader fileReader;
 
-        public UnicodeFileToHtmlTextConverter(string fullFilenameWithPath)
+        public UnicodeFileToHtmlTextConverter(IFileReader fileReader)
         {
-            _fullFilenameWithPath = fullFilenameWithPath;
-        }
-
-        public string GetFilename()
-        {
-            return _fullFilenameWithPath;
+            this.fileReader = fileReader;
         }
 
         public string ConvertToHtml()
         {
-            using (TextReader unicodeFileStream = File.OpenText(_fullFilenameWithPath))
-            {
-                string html = string.Empty;
+            var lines = fileReader.ReadLines();
 
-                string line = unicodeFileStream.ReadLine();
-                while (line != null)
+            string html = string.Empty;
+            foreach (var line in lines)
+            {
+                if (line != null)
                 {
                     html += HttpUtility.HtmlEncode(line);
                     html += "<br />";
-                    line = unicodeFileStream.ReadLine();
                 }
-
-                return html;
             }
+
+            return html;
         }
+
+        public string GetFilename() => fileReader.FileNameWithPath;
     }
-    class HttpUtility
+
+    internal class HttpUtility
     {
         public static string HtmlEncode(string line)
         {

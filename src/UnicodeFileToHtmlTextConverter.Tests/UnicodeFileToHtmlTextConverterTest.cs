@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Xunit;
 
 namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
@@ -12,7 +10,10 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         public void Foobar()
         {
             const string fileNameWithPath = "./foobar.txt";
-            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileNameWithPath);
+            var fileReader = CreateFileReaderStub(fileNameWithPath);
+
+            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader);
+
             Assert.Equal(fileNameWithPath, converter.GetFilename());
         }
 
@@ -24,10 +25,8 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         public void Foobar2(string fileName)
         {
             string fileNameWithPath = $"./UnicodeFileToHtmlTextConverter.Tests/{fileName}";
+            var fileReader = CreateFileReaderStub(fileNameWithPath);
 
-            var contents = "";
-
-            //var expectedCount = contents.Split('\n').Length+1;
             var expectedCount = 0;
 
             using (var fr = new System.IO.StreamReader(fileNameWithPath))
@@ -42,12 +41,9 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
                 expectedCount++;
             }
 
-            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileNameWithPath);
+            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader);
 
             var result = converter.ConvertToHtml();
-
-
-
 
             var actualCount = result.Split("<br />").Length;
 
@@ -60,13 +56,13 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
         public void Foobar3(string fileName, char[] availableChars, string[] expectedEncodings)
         {
             string fileNameWithPath = $"./UnicodeFileToHtmlTextConverter.Tests/{fileName}";
-
+            var fileReader = CreateFileReaderStub(fileNameWithPath);
             var contents = "";
 
             using (var fr = new System.IO.StreamReader(fileNameWithPath))
                 contents = fr.ReadToEnd();
 
-            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileNameWithPath);
+            UnicodeFileToHtmlTextConverter converter = new UnicodeFileToHtmlTextConverter(fileReader);
 
             var result = converter.ConvertToHtml();
 
@@ -74,7 +70,6 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
 
             foreach (var line in lines)
             {
-
                 var theChar = availableChars.Single(x => x == Convert.ToChar(line));
 
                 var charIdx = availableChars.ToList().FindIndex(x => theChar == x);
@@ -85,12 +80,11 @@ namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
 
                 Assert.Equal(expectedEncoding, actualEncoding);
             }
-
-
         }
 
-
-
+        private FileReaderStub CreateFileReaderStub(string fileNameWithPath)
+        {
+            return new FileReaderStub(fileNameWithPath);
+        }
     }
 }
-
