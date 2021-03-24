@@ -1,10 +1,15 @@
-using System;
+﻿using System;
 
 namespace TDDMicroExercises.TirePressureMonitoringSystem
 {
-    public class Sensor
+    public interface ISensor
     {
-        const double Offset = 16;
+        double PopNextPressurePsiValue();
+    }
+
+    public class Sensor : ISensor
+    {
+        private const double Offset = 16;
 
         public double PopNextPressurePsiValue()
         {
