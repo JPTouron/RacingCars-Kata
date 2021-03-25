@@ -5,7 +5,10 @@ using Xunit;
 
 namespace TDDMicroExercises.UnicodeFileToHtmlTextConverter
 {
-    public class HikerTest
+    /// <summary>
+    /// tests that were written before the refactoring took place
+    /// </summary>
+    public class Legacy_UnicodeFileToHtmlTextConverterTest
     {
         [Fact]
         public void Foobar()
